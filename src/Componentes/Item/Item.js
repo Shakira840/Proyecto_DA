@@ -1,21 +1,44 @@
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import './Item.scss';
+import Button from 'react-bootstrap/Button';
+import "./Item.scss";
+import { useDispatch } from 'react-redux';
+import {
+  removeTodo,
+  addTodo
+} from '../../reducers/todoSlice';
 
-function Item() {
+
+function Item(props) {
+  const removeItem = (e) => {
+    e.preventDefault();
+      dispatch(removeTodo(props.name));
+    }
+
+  const addItem = (e) => {
+    e.preventDefault();
+    dispatch(addTodo({'name': props.name}));
+  }
+  const dispatch = useDispatch();
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card >
       <Card.Body>
-        <Card.Text>
-            Name
+        <Card.Title >{props.name}</Card.Title>
+        <Card.Text className="fw-bold">
+          Description
         </Card.Text>
         <Card.Text>
-            Description
+          Elaborar una aplicación web responsive en la que se pueda llevar el control de mis tareas y metas personales.
+        </Card.Text>
+        <Card.Text className="fw-bold">
+          Due Date
         </Card.Text>
         <Card.Text>
-            Due Date
+            31/05/2024
         </Card.Text>
-        <Button variant="primary">Remover</Button>
+      </Card.Body>
+      <Card.Body>
+        <Button variant="info">Editar</Button>
+        <Button variant="info" onClick={removeItem}>Eliminar</Button>
       </Card.Body>
     </Card>
   );

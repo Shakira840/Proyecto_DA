@@ -1,28 +1,45 @@
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import './Formulario.scss'
+import { useSelector, useDispatch } from 'react-redux';
+import { useRef } from "react";
+import {
+  removeTodo,
+  addTodo
+} from '../../reducers/todoSlice';
 
 function Formulario() {
+  const dispatch = useDispatch();
+  const inputRefName = useRef();
+//  const inputRefDescription = useRef();
+//  const inputRefDueDate = useRef();
+
+  const addItem = (e) => {
+    e.preventDefault();
+    dispatch(addTodo({
+      'name': inputRefName.current.value,
+    }))
+  }
+
   return (
-    <Form>
-      <Form.Group className="mb-3" controlId="formBasicName">
+  <div className='space'>
+       <Form>
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Name</Form.Label>
-        <Form.Control type="Name" placeholder="Enter Name" />
+        <Form.Control type="text" placeholder="" ref={inputRefName}/>
       </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicDescription">
+      <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
         <Form.Label>Description</Form.Label>
-        <Form.Control type="Description" placeholder="Description" />
+        <Form.Control as="textarea" rows={3} />
       </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicDueDate">
+      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Due Date</Form.Label>
-        <Form.Control type="Due Date" placeholder="Due Date" />
+        <Form.Control type="date" placeholder="name@example.com" />
       </Form.Group>
-
-      <Button variant="primary" type="submit">
-        ADD GOAL
-      </Button>
+      <Button variant="info" onClick={addItem}>Add Goal</Button>
     </Form>
+  </div>
+ 
   );
 }
 
