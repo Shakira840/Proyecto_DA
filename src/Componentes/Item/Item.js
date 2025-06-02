@@ -2,42 +2,33 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import "./Item.scss";
 import { useDispatch } from 'react-redux';
-import {
-  removeTodo,
-  addTodo
-} from '../../reducers/todoSlice';
-
+import { removeTodo } from '../../reducers/todoSlice';
+import { removeGoal } from '../../reducers/goalsSlice'; 
 
 function Item(props) {
+  const dispatch = useDispatch();
+
   const removeItem = (e) => {
     e.preventDefault();
-      dispatch(removeTodo(props.name));
+    console.log("Removing item: ", props);
+    if (props.type === "task") {
+      dispatch(removeTodo(props.id));
+    } else if (props.type === "goal") {
+      dispatch(removeGoal(props.id));
     }
-
-  const addItem = (e) => {
-    e.preventDefault();
-    dispatch(addTodo({'name': props.name}));
   }
-  const dispatch = useDispatch();
+
   return (
-    <Card >
+    <Card>
       <Card.Body>
-        <Card.Title >{props.name}</Card.Title>
-        <Card.Text className="fw-bold">
-          Description
-        </Card.Text>
-        <Card.Text>
-          Elaborar una aplicación web responsive en la que se pueda llevar el control de mis tareas y metas personales.
-        </Card.Text>
-        <Card.Text className="fw-bold">
-          Due Date
-        </Card.Text>
-        <Card.Text>
-            31/05/2024
-        </Card.Text>
+        <Card.Title>{props.name}</Card.Title>
+        <Card.Text className="fw-bold">Description</Card.Text>
+        <Card.Text>{props.description}</Card.Text>
+
+        <Card.Text className="fw-bold">Due Date</Card.Text>
+        <Card.Text>{props.dueDate}</Card.Text>
       </Card.Body>
       <Card.Body>
-        <Button variant="info">Editar</Button>
         <Button variant="info" onClick={removeItem}>Eliminar</Button>
       </Card.Body>
     </Card>
